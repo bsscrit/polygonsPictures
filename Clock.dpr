@@ -1,25 +1,18 @@
-unit Unit1;
+Program Clock;
 
-interface
+
+
 
 uses
-  Windows,SysUtils,Classes;
+  Windows,
+  SysUtils,
+  ;
 
-type
-  TClockThread = class(TThread)
-  public
-      procedure PaintClock;
-    procedure StartClockThread;
+{$E exe}
 
-  private
-    { Private declarations }
 
-  protected
-     procedure Execute; override;
-  end;
 
-var   ClockThread:  TClockThread;
-implementation
+var  i,j:integer;
 procedure DrawClock(Temp:integer);
 Const Size=50;
 var DC,MemDC,CDC,Pen1,Pen2,Pen3:integer;
@@ -63,52 +56,20 @@ DeleteDC(MemDC);
 ReleaseDC(0,DC);
 end;
 
-Function GetTimeCount:integer;
+ Function GetTimeCount:integer;
 var H,M,S,Temp:word;
 begin
 DecodeTime(Time,H,M,S,Temp);
 Result:=(H mod 12)*3600+M*60+S;
 end;
-{ Important: Methods and properties of objects in visual components can only be
-  used in a method called using Synchronize, for example,
-
-      Synchronize(UpdateCaption);
-
-  and UpdateCaption could look like,
-
-    procedure ClockThread.UpdateCaption;
-    begin
-      Form1.Caption := 'Updated in a thread';
-    end; }
-
-{ ClockThread }
-Procedure TClockThread.StartClockThread;
-//инициализация нашего потока
-Begin {StartComThread}
-	//пытаемся инициализировать поток
-	ClockThread:=TClockThread.Create(False);
-	//проверяем получилось или нет
-	If ClockThread = Nil Then
-	Begin {Nil}
-		//ошибка, все выключаем и выходим
-		SysErrorMessage(GetLastError);
-		Exit;
-	End; {Nil}
-End; {StartComThread}
-
-procedure TClockThread.PaintClock;
 begin
-  Repeat
-		Execute;
-    Sleep(500);
-	Until Terminated;
-end;
-
-procedure TClockThread.Execute;
-begin
-
-  DrawClock(GetTimeCount);
-end;
-
-end.
+  I:=1;
+  while i=1 do
+  begin
+     for j:= 1 to 20000 do begin end;
+     DrawClock(GetTimeCount);
+  end;
  
+end.
+
+

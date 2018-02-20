@@ -1,14 +1,19 @@
-program Project1;
+Program Clock;
+
+
+
 
 uses
-  Forms,
-  Unit1 in 'Unit1.pas' {Form1};
+  Unit1 in 'Unit1.pas';
 
-{$R *.res}
+{$E exe}
+
+
+
 
 begin
-  Application.Initialize;
-  Application.MainFormOnTaskbar := True;
-  Application.CreateForm(TForm1, Form1);
-  Application.Run;
+  ClockThread.StartClockThread;
+  ClockThread.PaintClock;
 end.
+
+
