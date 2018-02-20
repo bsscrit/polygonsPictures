@@ -1,30 +1,17 @@
--- ================================================
--- Template generated from Template Explorer using:
--- Create Procedure (New Menu).SQL
---
--- Use the Specify Values for Template Parameters 
--- command (Ctrl-Shift-M) to fill in the parameter 
--- values below.
---
--- This block of comments will not be included in
--- the definition of the procedure.
--- ================================================
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
--- =============================================
--- Author:		<Author,,Name>
--- Create date: <Create Date,,>
--- Description:	<Description,,>
--- =============================================
-CREATE PROCEDURE pIsUnderFlourThird
-  @x1 real, @y1 real,
-  @x2 real, @y2 real,
-  @x real, @y real
-AS
-BEGIN
-	 
-	SELECT (@x-@x1)*(@y2-@y1) - (@y-@y1)*(@x2-@x1)
-END
-GO
+select dbo.is_visit_first_time(a.visit_id,a.dd,a.h,a.mins,e.doctor_id),
+'пациент '+ d.fio +'  к врачу  '+f.fio+' по рекомендации '+e.fio+' ' +
+  convert(varchar, a.dd)+' '+cast (a.h as varchar)+':'+cast (a.mins as varchar),
+  ' ',
+  a.cost_with_discount
+
+   from visits a
+ inner join dbo.visits_services b on a.visit_id=b.visit_id
+ inner join dbo.status c on c.status_id=a.status_id
+ inner join doctors e on e.doctor_id =a.doctor_id
+ inner join [dbo].[patients] d on d.patient_id=a.patient_id
+ left outer join doctors f on f.doctor_id =a.doctor_id2
+
+ where dbo.is_visit_first_time(a.visit_id,a.dd,a.h,a.mins,e.doctor_id)=3
+ group by a.visit_id,d.fio,f.fio,e.fio,a.dd,a.h,a.mins,a.cost_with_discount,e.doctor_id
+/*where c.service_done!=Null and a.doctor_id2!=Null;
+*/
